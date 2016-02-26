@@ -1,0 +1,4 @@
+{
+	"Pre": "{% body %}\n",
+	"Post": "{% bodyend %}\n"
+}
