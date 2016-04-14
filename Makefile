@@ -7,5 +7,5 @@ test1: all
 	diff a.html testdata/a.html
 
 install: all
-	echo cp markdown.cli ${HOME}/bin
+	cp markdown-cli ${HOME}/bin
 

@@ -19,6 +19,7 @@ var opts struct {
 	Output string `short:"o" long:"output" description:"Output" default:"./out.html"`
 	Pre    string `short:"p" long:"pre" description:"Prefix output with" default:""`
 	Post   string `short:"P" long:"post" description:"Postfix output with" default:""`
+	Basic  bool   `short:"b" long:"basic" description:"If true then Basic Markdown - else - extended" default:"false"`
 	Cfg    string `short:"c" long:"cfg" description:"Json Config File" default:"./markdown-cfg.json"`
 	Debug  bool   `short:"D" long:"debug" description:"Debug flag" default:"false"`
 }
@@ -65,6 +66,11 @@ func main() {
 					opts.Output = ss
 				}
 			}
+			if d, ok := data["Basic"]; ok {
+				if ss, ok := d.(bool); ok {
+					opts.Basic = ss
+				}
+			}
 			if d, ok := data["Debug"]; ok {
 				if bb, ok := d.(bool); ok {
 					opts.Debug = bb
@@ -78,7 +84,12 @@ func main() {
 		fmt.Printf("Error reading %s: %s\n", opts.Input, err)
 		os.Exit(1)
 	}
-	output := blackfriday.MarkdownBasic(input)
+	var output []byte
+	if opts.Basic {
+		output = blackfriday.MarkdownBasic(input)
+	} else {
+		output = blackfriday.MarkdownCommon(input)
+	}
 	err = ioutil.WriteFile(opts.Output, []byte(opts.Pre+string(output)+opts.Post), 0644)
 	if err != nil {
 		fmt.Printf("Error writing %s: %s\n", opts.Output, err)
