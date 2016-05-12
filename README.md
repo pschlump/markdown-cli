@@ -1,5 +1,7 @@
 markdown-cli
 ============
+ 
+[![license](http://img.shields.io/badge/license-MIT-red.svg?style=flat)](https://raw.githubusercontent.com/pschlump/Go-FTL/master/LICENSE)
 
 Markdown-CLI - A simple command line interface to convert markdown to html in Go (golang)
 
