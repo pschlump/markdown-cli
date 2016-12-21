@@ -2,7 +2,7 @@
 all:
 	go build
 
-test: test1
+test: test1 test2
 
 test1: all
 	markdown-cli -i testdata/a.md -o a.html
