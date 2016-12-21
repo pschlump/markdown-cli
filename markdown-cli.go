@@ -22,15 +22,40 @@ var opts struct {
 	Basic  bool   `short:"b" long:"basic" description:"If true then Basic Markdown - else - extended" default:"false"`
 	Cfg    string `short:"c" long:"cfg" description:"Json Config File" default:"./markdown-cfg.json"`
 	Debug  bool   `short:"D" long:"debug" description:"Debug flag" default:"false"`
+	Help0  bool   `short:"H" long:"help" description:"Help" default:"false"`
+}
+
+var Usage = func() {
+	fmt.Fprintf(os.Stderr,
+		`Usage of %s:
+    -i | --input FN                Input file name
+    -o | --output FN               Output file name
+    -b | --basic                   Default false, use "basic" markdown.  If not specified use extended.
+    -c | --cfg FN                  Read a configuration file.
+    -p | --pre "string"            Prefix HTML output with this string
+    -P | --post "string"           Postfix HTML output with this string
+
+If -o is not specified it defaults to stdout.
+
+-i or a file after the options is required.
+
+`, os.Args[0])
 }
 
 func main() {
 
 	// args, err := flags.ParseArgs(&opts, os.Args)
-	_, err := flags.ParseArgs(&opts, os.Args)
+	args, err := flags.ParseArgs(&opts, os.Args)
+
+	// fmt.Printf("opts=%s args=%s, err=%\n", godebug.SVarI(opts), args, err)
 
 	if err != nil {
-		panic(err)
+		Usage()
+		os.Exit(1)
+	}
+
+	if opts.Help0 {
+		Usage()
 		os.Exit(1)
 	}
 
@@ -79,7 +104,12 @@ func main() {
 		}
 	}
 
-	input, err := ioutil.ReadFile(opts.Input)
+	var input []byte
+	if opts.Input != "" {
+		input, err = ioutil.ReadFile(opts.Input)
+	} else if len(args) > 0 {
+		input, err = ioutil.ReadFile(args[1])
+	}
 	if err != nil {
 		fmt.Printf("Error reading %s: %s\n", opts.Input, err)
 		os.Exit(1)
@@ -90,10 +120,14 @@ func main() {
 	} else {
 		output = blackfriday.MarkdownCommon(input)
 	}
-	err = ioutil.WriteFile(opts.Output, []byte(opts.Pre+string(output)+opts.Post), 0644)
-	if err != nil {
-		fmt.Printf("Error writing %s: %s\n", opts.Output, err)
-		os.Exit(1)
+	if opts.Output != "" {
+		err = ioutil.WriteFile(opts.Output, []byte(opts.Pre+string(output)+opts.Post), 0644)
+		if err != nil {
+			fmt.Printf("Error writing %s: %s\n", opts.Output, err)
+			os.Exit(1)
+		}
+	} else {
+		fmt.Printf("%s%s%s", opts.Pre, output, opts.Post)
 	}
 }
 
