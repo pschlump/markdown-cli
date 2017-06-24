@@ -13,7 +13,7 @@ This is a really simple program to convert from Markdown to HTML.  Options are:
 	-P 		--post		Append the output with the specified string
 	-c		--cfg		JSON config file that can set the above from a file.
 
-Configuration can also be take from a JSON file.  For Example, to set Pre and Post values:
+Configuration can also be taken from a JSON file.  For Example, to set Pre and Post values:
 
 	{
 		"Pre": "{% body %}\n",
