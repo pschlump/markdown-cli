@@ -44,10 +44,7 @@ If -o is not specified it defaults to stdout.
 
 func main() {
 
-	// args, err := flags.ParseArgs(&opts, os.Args)
 	args, err := flags.ParseArgs(&opts, os.Args)
-
-	// fmt.Printf("opts=%s args=%s, err=%\n", godebug.SVarI(opts), args, err)
 
 	if err != nil {
 		Usage()
