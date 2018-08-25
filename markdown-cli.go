@@ -1,6 +1,6 @@
 // a CLI processor for Markdown implemented using blackfirday
 
-// (C) Philip Schlump, 2016
+// (C) Philip Schlump, 2016-2018 - MIT Licensed.
 
 package main
 

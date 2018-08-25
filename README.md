@@ -20,6 +20,25 @@ Configuration can also be taken from a JSON file.  For Example, to set Pre and P
 		"Post": "{% bodyend %}\n"
 	}
 
+Install
+-------------
+
+To Install (for Mac/Linux):
+```
+	$ cd ~/go/src/github.com/
+	$ mkdir pschlump
+	$ cd pschlump
+	$ git pull https://github.com/pschlump/markdown-cli.git
+	$ go get
+	$ cd markdown-cli
+	$ go build
+```
+
+You should have a markdown-cli executable.
+
+Test
+------------------
+
 To test this run 
 
 	$ make test1
