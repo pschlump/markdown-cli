@@ -50,7 +50,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	if opts.Help0 {
+	if len(args) == 1 || opts.Help0 {
 		Usage()
 		os.Exit(1)
 	}
